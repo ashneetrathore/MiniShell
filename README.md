@@ -5,6 +5,7 @@ Date: Feb 2024\
 Developer(s): Ashneet Rathore\
 Based on assignment instructions from Prof. Jennifer Wong-Ma
 
+Mini Shell is a custom Unix-like shell program that accepts and processes commands, supporting both foreground and background execution. Users can view their command history and running background processes, run built-in commands like `cd` and `exit`, and use simple pipelines and I/O redirection.
 
 ## :film_strip: DEMO
 ![Demo](demo.gif)
