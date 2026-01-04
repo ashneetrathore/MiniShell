@@ -8,9 +8,9 @@ Based on assignment instructions from Prof. Jennifer Wong-Ma
 Mini Shell is a custom Unix-like shell program that accepts and processes commands, supporting both foreground and background execution. Users can view their command history and running background processes, run built-in commands like `cd` and `exit`, and use simple pipelines and I/O redirection.
 
 ## :film_strip: DEMO
-![Demo](demo.gif)
 
 ## :gear: HOW IT WORKS
+
 
 ## :open_file_folder: PROJECT FILE STRUCTURE
 ```bash
@@ -18,7 +18,7 @@ MiniShell/
 │── src/
 │   │── icssh.c        # Defines the main shell program
 │   │── helpers.c      # Provides helper functions for the shell
-│   └── linkedlist.c   # Implements linked list to track processes and cmd history
+│   └── linkedlist.c   # Implements linked list to track cmd history and background processes
 │── rsrc/
 │   └── icssh.supp     # Suppresses Valgrind warnings during memory checks (for testing purposes)
 │── lib/
