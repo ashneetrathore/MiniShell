@@ -10,11 +10,13 @@ Mini Shell is a custom Unix-like shell program that accepts and processes comman
 ## :film_strip: DEMO
 
 ## :gear: HOW IT WORKS
-Written in the **C** language, Mini Shell manages both foreground and background execution. Jobs executed in the **foreground** run synchronously and block the shell until completion, and those executed in the **background** run asynchronously, allowing for continued user input. 
+Written in the **C** language, Mini Shell processes user commands as jobs, executing them in either the foreground or background. Jobs executed in the **foreground** run synchronously and block the shell until completion, and those executed in the **background** run asynchronously, allowing for continued user input. 
 
 Mini Shell represents each inputted command as a `job_info` struct, containing one more `proc_info` structs for the processes in that job. Active background jobs are tracked using a **linked list data structure**, containing `bgentry_t` structs. The command history, limited to the last five commands, is also tracked using a linked list data structure.
 
-The shell follows a ***parent-child model**, where the shell itself acts as a parent and external commands are executed in child processes created via `fork()`. The parent manages its children, waiting on foreground jobs until they complete and reaping background jobs when they terminate. The program supports a number of [built-in commands](#built-in-commands), including `bglist` to view running background jobs and `!` to re-execute the most recent command from history. **Built-in commands** are handled directly by the shell, whereas all other commands run in child processes, so the shell does not perform these commands internally.
+The shell follows a **parent-child model**, with the shell as the parent process and external commands executed as child processes created via `fork()`. The parent manages its children, waiting on foreground jobs until they complete and reaping background jobs when they terminate. 
+
+The program supports a number of [built-in commands](#built-in-commands), including `bglist` to view running background jobs and `!` to re-execute the most recent command from history. **Built-in commands** are handled directly by the shell, whereas all other commands, known as external commands, run in child processes.
 
 The shell supports **pipelines**, which allow the standard output of one command to be used as the standard input of another. This enables multiple processes to be chained together in a singular job without the creation of intermediate files.
 
