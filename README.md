@@ -16,7 +16,7 @@ Mini Shell represents each inputted command as a `job_info` struct, containing o
 
 The shell follows a **parent-child model**, with the shell as the parent process and external commands executed as child processes created via `fork()`. The parent manages its children, waiting on foreground jobs until they complete and reaping background jobs when they terminate. 
 
-The program supports a number of [built-in commands](#built-in-commands), including `bglist` to view running background jobs and `!` to re-execute the most recent command from history. **Built-in commands** are handled directly by the shell, whereas all other commands, known as external commands, run in child processes.
+The program supports a number of [built-in commands](#running_man-running-commands), including `bglist` to view running background jobs and `!` to re-execute the most recent command from history. **Built-in commands** are handled directly by the shell, whereas all other commands, known as external commands, run in child processes.
 
 The shell supports **pipelines**, which allow the standard output of one command to be used as the standard input of another. This enables multiple processes to be chained together in a singular job without the creation of intermediate files.
 
@@ -43,7 +43,9 @@ MiniShell/
 ```
 
 ## :rocket: SET UP & EXECUTION
-> Include something about linux environment/Docker setup
+> [!IMPORTANT]
+> Mini Shell must be run in a Linux environment, as it relies on POSIX system calls.
+
 **1. Clone the repository**
 ```bash
 git clone https://github.com/ashneetrathore/MiniShell.git
@@ -57,17 +59,17 @@ make
 ```
 
 ## :wrench: TRY IT OUT
-### RUNNING COMMANDS
-Run a command normally to execute it in the foreground
+### :running_man: RUNNING COMMANDS
+Run a command normally to execute it in the foreground. The example below runs a `sleep` process for 10 seconds in the foreground.
 ```bash
 sleep 10
 ```
-Run a command, with `&` appended to the end of it, to execute it in the background
+Run a command, with `&` appended to the end of it, to execute it in the background. The example below runs a `sleep` process for 10 seconds in the background.
 ```bash
 sleep 10 &
 ```
 
-### BUILT-IN COMMANDS
+Here are all the available built-in commands supported by Mini Shell:
 | Command     | Description                                                            |
 |-------------|------------------------------------------------------------------------|
 | `estatus`   | Display the exit status of the last command executed in the foreground |
@@ -78,9 +80,17 @@ sleep 10 &
 | `!<n>`      | Re-executes command number *n* from the last five commands in history  |
 | `exit`      | Exit the shell program                                                 |
 
-> Note that other commands can be entered but not handled directly by shell.
+> [!NOTE]
+> Commands not listed above may also be entered. These are treated as external commands and are executed in child processes, not directly by the shell.
 
-### PIPELINES
+### :link: PIPELINES
+To use pipelines, separate multiple commands with the `|` operator. Mini Shell supports up to 2 pipes, allowing 3 processes to be chained together. The example below lists the files in the `src` directory with the `ls` command, filters only those ending in `.c` using the `grep` command, and counts the number of matching files with the `wc -l` command.
+```bash
+ls src | grep '\.c$' | wc -l
+```
 
-
-### I/O REDIRECTION
+### :keyboard: I/O REDIRECTION
+To redirect input or output, use the `<` operator to read from a file and the `>` to write to a file. The example below reads from `README.md`, searches for the string `shell`, and writes the matching lines to `result.txt`.
+```bash
+grep "shell" < README.md > result.txt
+```
