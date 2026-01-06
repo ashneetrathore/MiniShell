@@ -5,12 +5,22 @@ Date: Feb 2024\
 Developer(s): Ashneet Rathore\
 Based on assignment instructions from Prof. Jennifer Wong-Ma
 
-Mini Shell is a custom Unix-like shell program that accepts and processes commands, supporting both foreground and background execution. Users can view their command history and running background processes, run built-in commands like `cd` and `exit`, and use simple pipelines and I/O redirection.
+Mini Shell is a custom Unix-like shell program that accepts and processes commands, supporting both foreground and background execution. Users can view their command history and a list of active background processes, run built-in commands including `cd` and `estatus`, and use simple pipelines and I/O redirection.
 
 ## :film_strip: DEMO
 
 ## :gear: HOW IT WORKS
+Written in the **C** language, Mini Shell manages both foreground and background execution. Jobs executed in the **foreground** run synchronously and block the shell until completion, and those executed in the **background** run asynchronously, allowing for continued user input. 
 
+Mini Shell represents each inputted command as a `job_info` struct, containing one more `proc_info` structs for the processes in that job. Active background jobs are tracked using a **linked list data structure**, containing `bgentry_t` structs. The command history, limited to the last five commands, is also tracked using a linked list data structure.
+
+The shell follows a ***parent-child model**, where the shell itself acts as a parent and external commands are executed in child processes created via `fork()`. The parent manages its children, waiting on foreground jobs until they complete and reaping background jobs when they terminate. The program supports a number of [built-in commands](#built-in-commands), including `bglist` to view running background jobs and `!` to re-execute the most recent command from history. **Built-in commands** are handled directly by the shell, whereas all other commands run in child processes, so the shell does not perform these commands internally.
+
+The shell supports **pipelines**, which allow the standard output of one command to be used as the standard input of another. This enables multiple processes to be chained together in a singular job without the creation of intermediate files.
+
+The shell also supports **input/output redirection** for files. Each `job_info` struct contains `in_file` and `out_file` fields, which specify the files for standard input and standard output respectively. When a command with a redirection operator is executed, the shell sets up these streams so the process reads from or writes to the specified files instead of the terminal.
+
+**Signal handling** is used to track child process termination (SIGCHLD) and to display active background jobs (SIGUSR2), ensuring proper process management. The shell also manages its own termination, upon the `exit` command, by freeing memory and terminating any remaining background processes.
 
 ## :open_file_folder: PROJECT FILE STRUCTURE
 ```bash
@@ -18,7 +28,7 @@ MiniShell/
 │── src/
 │   │── icssh.c        # Defines the main shell program
 │   │── helpers.c      # Provides helper functions for the shell
-│   └── linkedlist.c   # Implements linked list to track cmd history and background processes
+│   └── linkedlist.c   # Defines linked list (used to track cmd history and background processes)
 │── rsrc/
 │   └── icssh.supp     # Suppresses Valgrind warnings during memory checks (for testing purposes)
 │── lib/
@@ -31,6 +41,7 @@ MiniShell/
 ```
 
 ## :rocket: SET UP & EXECUTION
+> Include something about linux environment/Docker setup
 **1. Clone the repository**
 ```bash
 git clone https://github.com/ashneetrathore/MiniShell.git
@@ -44,3 +55,30 @@ make
 ```
 
 ## :wrench: TRY IT OUT
+### RUNNING COMMANDS
+Run a command normally to execute it in the foreground
+```bash
+sleep 10
+```
+Run a command, with `&` appended to the end of it, to execute it in the background
+```bash
+sleep 10 &
+```
+
+### BUILT-IN COMMANDS
+| Command     | Description                                                            |
+|-------------|------------------------------------------------------------------------|
+| `estatus`   | Display the exit status of the last command executed in the foreground |
+| `cd <path>` | Change the current working directory of the shell                      |
+| `bglist`    | Display a list of active background processes                          |
+| `history`   | Display the last five executed commands                                |
+| `!`         | Re-executes the most recent command from history                       |
+| `!<n>`      | Re-executes command number *n* from the last five commands in history  |
+| `exit`      | Exit the shell program                                                 |
+
+> Note that other commands can be entered but not handled directly by shell.
+
+### PIPELINES
+
+
+### I/O REDIRECTION
