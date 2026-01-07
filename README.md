@@ -71,15 +71,15 @@ sleep 10 &
 ```
 
 Here are all the available built-in commands supported by Mini Shell:
-| Command     | Description                                                            |
-|-------------|------------------------------------------------------------------------|
-| `estatus`   | Display the exit status of the last command executed in the foreground |
-| `cd <path>` | Change the current working directory of the shell                      |
-| `bglist`    | Display a list of active background processes                          |
-| `history`   | Display the last five executed commands                                |
-| `!`         | Re-executes the most recent command from history                       |
-| `!<n>`      | Re-executes command number *n* from the last five commands in history  |
-| `exit`      | Exit the shell program                                                 |
+| Command     | Description                                                             |
+|-------------|-------------------------------------------------------------------------|
+| `estatus`   | Displays the exit status of the last command executed in the foreground |
+| `cd <path>` | Changes the current working directory of the shell                      |
+| `bglist`    | Displays a list of active background processes                          |
+| `history`   | Displays the last five executed commands                                |
+| `!`         | Re-executes the most recent command from history                        |
+| `!<n>`      | Re-executes command number *n* from the last five commands in history   |
+| `exit`      | Exits the shell program                                                 |
 
 > [!NOTE]
 > Commands not listed above may also be entered. These are treated as external commands and are executed in child processes, not directly by the shell.
