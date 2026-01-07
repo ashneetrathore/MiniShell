@@ -8,6 +8,7 @@ Based on assignment instructions from Prof. Jennifer Wong-Ma
 Mini Shell is a custom Unix-like shell program that accepts and processes commands, supporting both foreground and background execution. Users can view their command history and a list of active background processes, run built-in commands including `cd` and `estatus`, and use simple pipelines and I/O redirection.
 
 ## :film_strip: DEMO
+![Demo](demo.gif)
 
 ## :gear: HOW IT WORKS
 Written in the **C** language, Mini Shell processes user commands as jobs, executing them in either the foreground or background. Jobs executed in the **foreground** run synchronously and block the shell until completion, and those executed in the **background** run asynchronously, allowing for continued user input. 
